@@ -1,0 +1,26 @@
+{
+  "name": "3d-design",
+  "license": "MIT",
+  "version": "0.1.0",
+  "description": "库房三维场景设计器，导出 JSON、库位表和 GLB 给 3D 库房看板使用。",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.186.1",
+    "unocss": "^66.11.0",
+    "vue": "^3.5.44"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/tsconfig": "^0.9.1",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.4",
+    "vue-tsc": "^3.3.13"
+  }
+}
