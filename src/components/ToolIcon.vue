@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ToolId } from '../types'
+import type { ToolId } from '@/domain/types'
 
 defineProps<{ name: ToolId }>()
 </script>

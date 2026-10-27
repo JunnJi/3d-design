@@ -9,6 +9,17 @@ pnpm dev
 
 打开后是一个示例成品库。左侧放置货架、墙体、库区、月台等，右侧改尺寸和编码。刷新页面会恢复上次编辑。
 
+## 目录结构
+
+```text
+src/
+  components/   Vue 界面
+  domain/       场景数据、目录常量、几何与编辑状态
+  scene/        Three.js 建模、视口与 GLB 导出
+  io/           导入导出与视口桥接
+  examples/     看板 Demo 打包
+```
+
 ## 导出
 
 - `名称.warehouse.json`：看板主文件。`slots` 是扁平库位表，用 `code` 对齐仓储系统，用 `position` 放置货物。

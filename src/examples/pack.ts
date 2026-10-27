@@ -1,7 +1,7 @@
-import { SCENE_FORMAT, SCENE_VERSION, createDemo } from '../catalog'
-import { collectSlots, round3 } from '../geometry'
-import { exportPersistedGlb } from '../scene/exportModel'
-import type { SlotRecord } from '../types'
+import { SCENE_FORMAT, SCENE_VERSION, createDemo } from '@/domain/catalog'
+import { collectSlots, round3 } from '@/domain/geometry'
+import type { SlotRecord } from '@/domain/types'
+import { exportPersistedGlb } from '@/scene/exportModel'
 import { zipFiles, type ZipEntry } from './zip'
 
 export type ExampleKind = 'vue' | 'react'

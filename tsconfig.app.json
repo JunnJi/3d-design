@@ -5,6 +5,7 @@
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
     "paths": {
+      "@/*": ["./src/*"],
       "three": ["./node_modules/@types/three/build/three.module.d.ts"],
       "three/addons/*": ["./node_modules/@types/three/examples/jsm/*"],
       "three/examples/jsm/*": ["./node_modules/@types/three/examples/jsm/*"]

@@ -1,7 +1,7 @@
 import * as THREE from 'three'
-import { previewStatus } from '../catalog'
-import { rackCells, rackFrameHeight } from '../geometry'
-import type { FloorSpec, SceneObject } from '../types'
+import { previewStatus } from '@/domain/catalog'
+import { rackCells, rackFrameHeight } from '@/domain/geometry'
+import type { FloorSpec, SceneObject } from '@/domain/types'
 import { concreteTexture, hazardTexture } from './textures'
 
 export interface BuildOptions {

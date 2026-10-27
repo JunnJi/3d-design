@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { TOOLS } from '../catalog'
-import { collectSlots } from '../geometry'
-import { doc, ui } from '../store'
+import { TOOLS } from '@/domain/catalog'
+import { collectSlots } from '@/domain/geometry'
+import { doc, ui } from '@/domain/store'
 
 const slotCount = computed(() => collectSlots(doc.objects).length)
 const rackCount = computed(() => doc.objects.filter((item) => item.type === 'rack').length)

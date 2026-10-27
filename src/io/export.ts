@@ -1,9 +1,9 @@
-import { SCENE_FORMAT, SCENE_VERSION } from './catalog'
+import { SCENE_FORMAT, SCENE_VERSION } from '@/domain/catalog'
+import { parsePersisted } from '@/domain/document'
+import { collectSlots, round3 } from '@/domain/geometry'
+import { persistedState, replaceDocument, toast } from '@/domain/store'
+import type { SceneStats, SlotRecord, WarehouseFile } from '@/domain/types'
 import { viewportExportGlb } from './bridge'
-import { parsePersisted } from './document'
-import { collectSlots, round3 } from './geometry'
-import { persistedState, replaceDocument, toast } from './store'
-import type { SceneStats, SlotRecord, WarehouseFile } from './types'
 
 export function toExportFile(): WarehouseFile {
   const state = persistedState()
@@ -29,12 +29,13 @@ export function exportJson() {
 
 export function exportCsv() {
   const file = toExportFile()
-  const header = ['库位编码', '货架编码', '货架名称', '列', '层', 'X', 'Y', 'Z', '长度', '深度', '层高']
+  const header = ['code', 'rackId', 'rackCode', 'rackName', 'bay', 'level', 'x', 'y', 'z', 'length', 'depth', 'height']
   const lines = file.slots.map((slot) =>
     [
       slot.code,
+      slot.rackId,
       slot.rackCode,
-      slot.rackName,
+      csvEscape(slot.rackName),
       slot.bay,
       slot.level,
       slot.position.x,
@@ -84,22 +85,18 @@ function sceneStats(objects: WarehouseFile['objects'], slotCount: number): Scene
 function roundSlot(slot: SlotRecord): SlotRecord {
   return {
     ...slot,
-    position: {
-      x: round3(slot.position.x),
-      y: round3(slot.position.y),
-      z: round3(slot.position.z),
-    },
-    size: {
-      length: round3(slot.size.length),
-      depth: round3(slot.size.depth),
-      height: round3(slot.size.height),
-    },
+    position: { x: round3(slot.position.x), y: round3(slot.position.y), z: round3(slot.position.z) },
+    size: { length: round3(slot.size.length), depth: round3(slot.size.depth), height: round3(slot.size.height) },
   }
 }
 
 function fileBase(name: string) {
-  const cleaned = name.trim().replace(/[\\/:*?"<>|]/g, '-')
-  return cleaned || '库房场景'
+  return name.trim() || 'warehouse'
+}
+
+function csvEscape(value: string) {
+  if (/[",\n]/.test(value)) return `"${value.replaceAll('"', '""')}"`
+  return value
 }
 
 function download(filename: string, text: string, type: string) {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from 'vue'
-import ExamplesDialog from './components/ExamplesDialog.vue'
-import Inspector from './components/Inspector.vue'
-import StatusBar from './components/StatusBar.vue'
-import ToolRail from './components/ToolRail.vue'
-import TopBar from './components/TopBar.vue'
-import Viewport from './components/Viewport.vue'
+import ExamplesDialog from '@/components/ExamplesDialog.vue'
+import Inspector from '@/components/Inspector.vue'
+import StatusBar from '@/components/StatusBar.vue'
+import ToolRail from '@/components/ToolRail.vue'
+import TopBar from '@/components/TopBar.vue'
+import Viewport from '@/components/Viewport.vue'
 import {
   applyConfirm,
   duplicateSelected,
@@ -16,8 +16,8 @@ import {
   toast,
   ui,
   undo,
-} from './store'
-import type { ToolId } from './types'
+} from '@/domain/store'
+import type { ToolId } from '@/domain/types'
 
 const toolKeys: Record<string, ToolId> = {
   v: 'select',

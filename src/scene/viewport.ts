@@ -2,9 +2,7 @@ import { watch } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
-import { exportRootGlb } from './exportModel'
-import { bindViewport, type CameraShot } from '../bridge'
-import { clampToFloor, cornerToThree, snapTo, threeToCorner } from '../geometry'
+import { clampToFloor, cornerToThree, snapTo, threeToCorner } from '@/domain/geometry'
 import {
   brushFor,
   checkpoint,
@@ -16,9 +14,11 @@ import {
   structureTick,
   transformTick,
   ui,
-} from '../store'
-import type { ObjectType, Vec3 } from '../types'
+} from '@/domain/store'
+import type { ObjectType, Vec3 } from '@/domain/types'
+import { bindViewport, type CameraShot } from '@/io/bridge'
 import { buildDimensions, buildFloor, buildGrid, buildGround, buildObject } from './build'
+import { exportRootGlb } from './exportModel'
 
 export function mountViewport(host: HTMLElement) {
   const scene = new THREE.Scene()

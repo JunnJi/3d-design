@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { downloadExample, exampleEntry, type ExampleKind } from '../examples/pack'
-import { toast, ui } from '../store'
+import { toast, ui } from '@/domain/store'
+import { downloadExample, exampleEntry, type ExampleKind } from '@/examples/pack'
 
 const kind = ref<ExampleKind>('vue')
 const packing = ref(false)

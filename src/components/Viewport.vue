@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { PREVIEW_LEGEND } from '../catalog'
-import { mountViewport } from '../scene/viewport'
-import { doc, requestFit, ui } from '../store'
-import type { Projection } from '../types'
+import { PREVIEW_LEGEND } from '@/domain/catalog'
+import { doc, requestFit, ui } from '@/domain/store'
+import type { Projection } from '@/domain/types'
+import { mountViewport } from '@/scene/viewport'
 
 const host = ref<HTMLDivElement | null>(null)
 const objectCount = computed(() => doc.objects.length)

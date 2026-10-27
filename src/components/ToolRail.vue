@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TOOLS } from '../catalog'
-import { ui } from '../store'
+import { TOOLS } from '@/domain/catalog'
+import { ui } from '@/domain/store'
 import ToolIcon from './ToolIcon.vue'
 </script>
 

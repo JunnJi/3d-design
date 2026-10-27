@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import 'virtual:uno.css'
 import App from './App.vue'
-import { toExportFile } from './io'
-import { doc, ui } from './store'
+import { doc, ui } from '@/domain/store'
+import { toExportFile } from '@/io/export'
 
 if (import.meta.env.DEV) {
   Object.assign(window, { __designer: { doc, ui, toExportFile } })

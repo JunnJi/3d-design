@@ -1,4 +1,4 @@
-import type { Projection, Vec3 } from './types'
+import type { Projection, Vec3 } from '@/domain/types'
 
 export interface CameraShot {
   projection: Projection

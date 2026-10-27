@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { OBJECT_ORDER, TYPE_LABEL, ZONE_COLORS, objectCode, uid, type RackPresetId } from '../catalog'
-import { viewportCapture } from '../bridge'
-import { rackFrameHeight } from '../geometry'
+import { OBJECT_ORDER, TYPE_LABEL, ZONE_COLORS, objectCode, uid, type RackPresetId } from '@/domain/catalog'
+import { rackFrameHeight } from '@/domain/geometry'
 import {
   addViewpoint,
   applyRackPreset,
@@ -24,8 +23,9 @@ import {
   showViewpoint,
   toast,
   ui,
-} from '../store'
-import type { FloorSpec, ObjectPatch, SceneMeta } from '../types'
+} from '@/domain/store'
+import type { FloorSpec, ObjectPatch, SceneMeta } from '@/domain/types'
+import { viewportCapture } from '@/io/bridge'
 import NumberField from './NumberField.vue'
 
 const focus = ref<'object' | 'scene'>('object')

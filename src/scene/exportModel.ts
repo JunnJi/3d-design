@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'
-import { cornerToThree } from '../geometry'
-import type { Persisted } from '../types'
+import { cornerToThree } from '@/domain/geometry'
+import type { Persisted } from '@/domain/types'
 import { buildFloor, buildObject } from './build'
 
 /** 用和设计器相同的建模逻辑导出 GLB，原点在地面中心。 */

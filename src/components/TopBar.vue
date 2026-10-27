@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { exportCsv, exportGlb, exportJson, importJsonText } from '../io'
-import { askConfirm, beginEdit, doc, endEdit, history, patchMeta, redo, toast, ui, undo } from '../store'
+import { askConfirm, beginEdit, doc, endEdit, history, patchMeta, redo, toast, ui, undo } from '@/domain/store'
+import { exportCsv, exportGlb, exportJson, importJsonText } from '@/io/export'
 
 const menu = ref(false)
 const file = ref<HTMLInputElement | null>(null)
