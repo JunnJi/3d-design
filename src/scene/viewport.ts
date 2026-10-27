@@ -2,7 +2,7 @@ import { watch } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
-import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'
+import { exportRootGlb } from './exportModel'
 import { bindViewport, type CameraShot } from '../bridge'
 import { clampToFloor, cornerToThree, snapTo, threeToCorner } from '../geometry'
 import {
@@ -28,27 +28,29 @@ export function mountViewport(host: HTMLElement) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   renderer.shadowMap.enabled = true
   renderer.toneMapping = THREE.ACESFilmicToneMapping
-  renderer.toneMappingExposure = 1.12
+  renderer.toneMappingExposure = 1.18
   renderer.outputColorSpace = THREE.SRGBColorSpace
   host.appendChild(renderer.domElement)
 
   const pmrem = new THREE.PMREMGenerator(renderer)
   const environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture
   scene.environment = environment
-  scene.environmentIntensity = 0.55
+  scene.environmentIntensity = 0.72
   pmrem.dispose()
 
-  const hemi = new THREE.HemisphereLight(0xe7eef8, 0x3a332c, 0.72)
-  const sun = new THREE.DirectionalLight(0xfff3e4, 1.55)
+  const hemi = new THREE.HemisphereLight(0xeaf2f8, 0x2a3340, 0.82)
+  const sun = new THREE.DirectionalLight(0xfff6ea, 1.65)
   sun.position.set(18, 28, 14)
   sun.castShadow = true
   sun.shadow.mapSize.set(2048, 2048)
-  sun.shadow.radius = 2.5
+  sun.shadow.radius = 2.2
   sun.shadow.bias = -0.00035
   sun.shadow.normalBias = 0.02
-  const fill = new THREE.DirectionalLight(0xc5d4ee, 0.28)
+  const fill = new THREE.DirectionalLight(0xb9d0e8, 0.38)
   fill.position.set(-16, 12, -10)
-  scene.add(hemi, sun, sun.target, fill)
+  const rim = new THREE.DirectionalLight(0x9fd7d0, 0.22)
+  rim.position.set(4, 10, -22)
+  scene.add(hemi, sun, sun.target, fill, rim)
 
   const exportRoot = new THREE.Group()
   exportRoot.name = 'warehouse'
@@ -255,11 +257,7 @@ export function mountViewport(host: HTMLElement) {
   }
 
   async function exportGlb() {
-    exportRoot.updateMatrixWorld(true)
-    const exporter = new GLTFExporter()
-    const result = await exporter.parseAsync(exportRoot, { binary: true, onlyVisible: true })
-    if (!(result instanceof ArrayBuffer)) throw new Error('模型导出失败')
-    return result
+    return exportRootGlb(exportRoot)
   }
 
   function rebuild() {
@@ -353,7 +351,7 @@ export function mountViewport(host: HTMLElement) {
     if (!ui.selectedId || ui.preview) return
     const group = meshMap.get(ui.selectedId)
     if (!group) return
-    selection = new THREE.BoxHelper(group, 0xf0a202)
+    selection = new THREE.BoxHelper(group, 0x4fc3b8)
     scene.add(selection)
   }
 
@@ -366,7 +364,7 @@ export function mountViewport(host: HTMLElement) {
   }
 
   function applyAtmosphere() {
-    const color = ui.preview ? 0x0c1016 : 0x0e1218
+    const color = ui.preview ? 0x080c10 : 0x0a0f14
     scene.background = new THREE.Color(color)
     const dist = Math.max(doc.floor.width, doc.floor.depth)
     scene.fog = new THREE.Fog(color, dist * 1.35, dist * 3.4)

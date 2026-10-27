@@ -37,6 +37,7 @@ export const ui = reactive({
   panel: 'props' as 'props' | 'outline' | 'views',
   toast: '',
   help: false,
+  examples: false,
   confirm: null as null | 'new' | 'demo' | 'clear',
   pointer: { x: 0, z: 0, valid: false },
   fitToken: 0,

@@ -5,7 +5,7 @@ import ToolIcon from './ToolIcon.vue'
 </script>
 
 <template>
-  <aside class="flex w-[6.25rem] shrink-0 flex-col gap-1 border-r border-white/8 bg-gradient-to-b from-[#2a2116] to-panel px-2 py-3">
+  <aside class="flex w-[6.25rem] shrink-0 flex-col gap-1 border-r border-white/8 bg-panel px-2 py-3">
     <button
       v-for="tool in TOOLS"
       :key="tool.id"

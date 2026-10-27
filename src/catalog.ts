@@ -128,11 +128,11 @@ export function createDefault(type: ObjectType): SceneObject {
     case 'rack':
       return { ...base, type, code: 'A-01', ...cloneData(RACK_PRESETS.medium) }
     case 'wall':
-      return { ...base, type, length: 6, height: 4.2, thickness: 0.24, color: '#e6e9f0' }
+      return { ...base, type, length: 6, height: 4.2, thickness: 0.24, color: '#eef2f7' }
     case 'column':
-      return { ...base, type, width: 0.45, depth: 0.45, height: 5.2, color: '#9aa3af' }
+      return { ...base, type, width: 0.45, depth: 0.45, height: 5.2, color: '#a8b1bd' }
     case 'door':
-      return { ...base, type, width: 2.8, height: 3, color: '#8d6a45' }
+      return { ...base, type, width: 3.6, height: 3.2, color: '#9ec9db' }
     case 'zone':
       return { ...base, type, code: 'A', length: 8, depth: 6, color: ZONE_COLORS[0] }
     case 'dock':
@@ -166,58 +166,92 @@ export function createDemo(): Persisted {
     objects.push(Object.assign(createDefault(type), patch) as T)
   }
 
-  add('wall', { name: '南墙-左', position: { x: 4, y: 0, z: wallT / 2 }, length: 8, height: 4.2, thickness: wallT })
-  add('wall', { name: '南墙-右', position: { x: 21.6, y: 0, z: wallT / 2 }, length: 20.8, height: 4.2, thickness: wallT })
-  add('wall', { name: '北墙', position: { x: 16, y: 0, z: depth - wallT / 2 }, length: width, height: 4.2, thickness: wallT })
+  const doorW = 4.2
+  const doorX = width / 2
+  const northLeftLen = doorX - doorW / 2
+  const northRightLen = width - (doorX + doorW / 2)
+  add('wall', {
+    name: '南墙',
+    position: { x: 16, y: 0, z: wallT / 2 },
+    length: width,
+    height: 4.4,
+    thickness: wallT,
+    color: '#eef2f7',
+  })
+  add('wall', {
+    name: '北墙-左',
+    position: { x: northLeftLen / 2, y: 0, z: depth - wallT / 2 },
+    length: northLeftLen,
+    height: 4.4,
+    thickness: wallT,
+    color: '#eef2f7',
+  })
+  add('wall', {
+    name: '北墙-右',
+    position: { x: doorX + doorW / 2 + northRightLen / 2, y: 0, z: depth - wallT / 2 },
+    length: northRightLen,
+    height: 4.4,
+    thickness: wallT,
+    color: '#eef2f7',
+  })
   add('wall', {
     name: '西墙',
     position: { x: wallT / 2, y: 0, z: 9 },
     rotationY: 90,
     length: depth,
-    height: 4.2,
+    height: 4.4,
     thickness: wallT,
+    color: '#eef2f7',
   })
   add('wall', {
     name: '东墙-南',
     position: { x: width - wallT / 2, y: 0, z: 2.5 },
     rotationY: 90,
     length: 5,
-    height: 4.2,
+    height: 4.4,
     thickness: wallT,
+    color: '#eef2f7',
   })
   add('wall', {
     name: '东墙-北',
     position: { x: width - wallT / 2, y: 0, z: 15.5 },
     rotationY: 90,
     length: 5,
-    height: 4.2,
+    height: 4.4,
     thickness: wallT,
+    color: '#eef2f7',
   })
-  add('door', { name: '入库门', position: { x: 9.6, y: 0, z: wallT / 2 }, width: 2.8, height: 3 })
+  add('door', {
+    name: '正门玻璃移门',
+    position: { x: doorX, y: 0, z: depth - wallT / 2 },
+    width: doorW,
+    height: 3.4,
+    color: '#9ec9db',
+  })
 
   add('zone', {
     name: '存储区',
     code: 'A',
-    position: { x: 9, y: 0, z: 9 },
+    position: { x: 9, y: 0, z: 8.4 },
     length: 16,
-    depth: 14,
-    color: '#2563eb',
+    depth: 12.4,
+    color: '#3b82f6',
   })
   add('zone', {
     name: '发货区',
     code: 'S',
-    position: { x: 23.5, y: 0, z: 9 },
+    position: { x: 23.5, y: 0, z: 8.4 },
     length: 10,
-    depth: 14,
-    color: '#ea8a1a',
+    depth: 12.4,
+    color: '#f59e0b',
   })
   add('zone', {
     name: '收货暂存',
     code: 'R',
-    position: { x: 9.6, y: 0, z: 1.7 },
-    length: 4.2,
-    depth: 1.8,
-    color: '#7c5cbf',
+    position: { x: doorX, y: 0, z: depth - 2.1 },
+    length: 5.2,
+    depth: 2.2,
+    color: '#8b7cc9',
   })
 
   const rackX = [3.5, 8.1, 12.7]
@@ -247,7 +281,7 @@ export function createDemo(): Persisted {
     depth: 2.4,
     height: 1.15,
   })
-  add('label', { name: '入库', position: { x: 6.2, y: 2.4, z: 1.5 }, color: '#f0a202' })
+  add('label', { name: '正门入口', position: { x: doorX, y: 2.8, z: depth - 1.15 }, color: '#4fc3b8' })
   add('label', { name: '发货月台', position: { x: 27.2, y: 2.6, z: 9 }, color: '#f8fafc' })
 
   return {
@@ -256,7 +290,7 @@ export function createDemo(): Persisted {
       site: '一号园区',
       remark: '按实际场地改尺寸和货架后导出，供 3D 库房看板加载。',
     },
-    floor: { width, depth, clearHeight: 6, color: '#5c6370' },
+    floor: { width, depth, clearHeight: 6, color: '#6b7584' },
     gridSize: 0.5,
     snap: true,
     confine: true,
@@ -266,8 +300,8 @@ export function createDemo(): Persisted {
         id: uid('view'),
         name: '总览',
         projection: 'perspective',
-        position: { x: 19.84, y: 22.4, z: 33.96 },
-        target: { x: 16, y: 0.6, z: 9 },
+        position: { x: 16, y: 13.5, z: 31 },
+        target: { x: 16, y: 1.3, z: 12 },
       },
       {
         id: uid('view'),

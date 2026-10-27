@@ -2,6 +2,7 @@
   "name": "3d-design",
   "license": "MIT",
   "version": "0.1.0",
+  "packageManager": "pnpm@10.33.2",
   "description": "库房三维场景设计器，导出 JSON、库位表和 GLB 给 3D 库房看板使用。",
   "type": "module",
   "scripts": {

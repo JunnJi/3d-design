@@ -35,17 +35,14 @@ async function onFile(event: Event) {
 </script>
 
 <template>
-  <header class="flex h-16 shrink-0 items-center gap-3 border-b border-white/8 bg-gradient-to-r from-[#2a2116] via-panel to-panel px-4">
+  <header class="flex h-16 shrink-0 items-center gap-3 border-b border-white/8 bg-panel px-4">
     <div class="flex shrink-0 items-center gap-2.5">
-      <span class="grid h-10 w-10 place-items-center rounded-xl bg-amber-400 text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]">
+      <span class="grid h-10 w-10 place-items-center rounded-xl bg-accent text-[#06201d]">
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
           <path d="M7 19V6M17 19V6M7 9h10M7 13h10M7 17h10" />
         </svg>
       </span>
-      <div class="leading-tight">
-        <p class="text-lg font-semibold tracking-tight">库房设计器</p>
-        <p class="text-sm text-zinc-300">导出给 3D 看板</p>
-      </div>
+      <p class="text-lg font-semibold tracking-tight text-[#e9eef5]">三维设计器</p>
     </div>
     <div class="mx-1 hidden h-8 w-px bg-white/10 sm:block" />
     <input
@@ -100,6 +97,7 @@ async function onFile(event: Event) {
           </button>
         </div>
       </div>
+      <button type="button" class="btn btn-line px-2.5" @click="ui.examples = true">使用示例</button>
       <button type="button" class="btn btn-ghost px-2" @click="ui.help = true">说明</button>
     </div>
     <input ref="file" class="hidden" type="file" accept="application/json,.json" @change="onFile" />

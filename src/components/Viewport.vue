@@ -26,15 +26,15 @@ function setProjection(mode: Projection) {
 </script>
 
 <template>
-  <section class="relative min-w-0 flex-1 overflow-hidden bg-[#0e1218]">
+  <section class="relative min-w-0 flex-1 overflow-hidden bg-ink">
     <div
       ref="host"
       class="absolute inset-0 touch-none"
       :class="ui.preview || ui.tool === 'select' ? 'cursor-default' : 'cursor-crosshair'"
     />
-    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_62%,rgba(6,8,12,0.28)_100%)]" />
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_58%,rgba(6,12,16,0.32)_100%)]" />
     <div class="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3">
-      <div class="pointer-events-auto flex items-center gap-1 rounded-full border border-white/10 bg-[#12161e]/80 p-1 shadow-lg shadow-black/40 backdrop-blur-md">
+      <div class="pointer-events-auto flex items-center gap-1 rounded-full border border-white/10 bg-panel/85 p-1 shadow-lg shadow-black/35 backdrop-blur-md">
         <button
           v-for="mode in viewButtons"
           :key="mode.id"
@@ -56,11 +56,11 @@ function setProjection(mode: Projection) {
           {{ ui.preview ? '退出预览' : '看板预览' }}
         </button>
       </div>
-      <p class="rounded-full border border-white/10 bg-[#12161e]/80 px-4 py-2 text-sm text-zinc-100 backdrop-blur-md">右键平移 · 滚轮缩放 · R 旋转</p>
+      <p class="rounded-full border border-white/10 bg-panel/85 px-4 py-2 text-sm text-[#e9eef5] backdrop-blur-md">右键平移 · 滚轮缩放 · R 旋转</p>
     </div>
     <div
       v-if="ui.preview"
-      class="pointer-events-none absolute bottom-3 left-3 rounded-2xl border border-white/10 bg-[#12161e]/85 px-4 py-3 text-base text-zinc-50 shadow-lg backdrop-blur-md"
+      class="pointer-events-none absolute bottom-3 left-3 rounded-2xl border border-white/10 bg-panel/90 px-4 py-3 text-base text-[#e9eef5] shadow-lg backdrop-blur-md"
     >
       <p class="mb-2 text-sm text-zinc-200">演示库存，导出后由看板按库位编码着色</p>
       <div class="flex flex-wrap gap-x-4 gap-y-1.5">
@@ -72,7 +72,7 @@ function setProjection(mode: Projection) {
     </div>
     <p
       v-else-if="objectCount === 0"
-      class="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-[#12161e]/85 px-5 py-2.5 text-base text-zinc-50 backdrop-blur-md"
+      class="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-panel/90 px-5 py-2.5 text-base text-[#e9eef5] backdrop-blur-md"
     >
       从左侧选择货架或墙体，再点击地面放置
     </p>

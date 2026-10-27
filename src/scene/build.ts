@@ -28,7 +28,7 @@ export function buildFloor(floor: FloorSpec) {
   slab.name = '地面'
   const plinth = new THREE.Mesh(
     new THREE.BoxGeometry(floor.width + 0.28, 0.1, floor.depth + 0.28),
-    new THREE.MeshStandardMaterial({ color: '#2c3340', roughness: 0.94, metalness: 0.04 }),
+    new THREE.MeshStandardMaterial({ color: '#243040', roughness: 0.9, metalness: 0.06, envMapIntensity: 0.4 }),
   )
   plinth.position.y = -0.16
   plinth.receiveShadow = true
@@ -38,11 +38,11 @@ export function buildFloor(floor: FloorSpec) {
 
 function floorBoundary(floor: FloorSpec) {
   const paint = new THREE.MeshStandardMaterial({
-    color: '#f0b429',
+    color: '#4fc3b8',
     roughness: 0.5,
     metalness: 0.06,
-    emissive: new THREE.Color('#f0b429'),
-    emissiveIntensity: 0.35,
+    emissive: new THREE.Color('#4fc3b8'),
+    emissiveIntensity: 0.28,
   })
   const inset = 0.42
   const thickness = 0.1
@@ -68,7 +68,7 @@ export function buildGround(floor: FloorSpec) {
   const span = Math.max(floor.width, floor.depth) * 4.5
   const mesh = new THREE.Mesh(
     new THREE.CircleGeometry(span / 2, 72),
-    new THREE.MeshStandardMaterial({ color: '#242b38', roughness: 1, metalness: 0 }),
+    new THREE.MeshStandardMaterial({ color: '#171e28', roughness: 1, metalness: 0 }),
   )
   mesh.rotation.x = -Math.PI / 2
   mesh.position.y = -0.22
@@ -100,11 +100,11 @@ export function buildGrid(floor: FloorSpec, step: number) {
 
 export function buildDimensions(floor: FloorSpec) {
   const group = new THREE.Group()
-  const widthLabel = makeSprite(`${trimNumber(floor.width)} m`, 3.2, 0.9, '#1a1408', 'rgba(240,180,41,0.94)')
+  const widthLabel = makeSprite(`${trimNumber(floor.width)} m`, 3.2, 0.9, '#06201d', 'rgba(79,195,184,0.94)')
   widthLabel.position.set(0, 0.4, floor.depth / 2 + 1.2)
-  const depthLabel = makeSprite(`${trimNumber(floor.depth)} m`, 3.2, 0.9, '#1a1408', 'rgba(240,180,41,0.94)')
+  const depthLabel = makeSprite(`${trimNumber(floor.depth)} m`, 3.2, 0.9, '#06201d', 'rgba(79,195,184,0.94)')
   depthLabel.position.set(-floor.width / 2 - 1.7, 0.4, 0)
-  const origin = makeSprite('原点', 1.8, 0.7, '#1a1408', 'rgba(240,180,41,0.94)')
+  const origin = makeSprite('原点', 1.8, 0.7, '#06201d', 'rgba(79,195,184,0.94)')
   origin.position.set(-floor.width / 2 + 1.3, 0.45, -floor.depth / 2 + 0.9)
   group.add(widthLabel, depthLabel, origin)
   return group
@@ -146,10 +146,10 @@ export function buildObject(obj: SceneObject, options: BuildOptions) {
 function addRack(group: THREE.Group, obj: Extract<SceneObject, { type: 'rack' }>, options: BuildOptions) {
   const length = obj.bays * obj.bayWidth
   const postHeight = rackFrameHeight(obj) + 0.12
-  const post = 0.08
-  const frame = mat(obj.frameColor, 0.55, 0.38)
-  const beam = mat(obj.beamColor, 0.42, 0.4)
-  const shelf = mat(obj.shelfColor, 0.06, 0.74)
+  const post = 0.075
+  const frame = mat(obj.frameColor, 0.62, 0.32)
+  const beam = mat(obj.beamColor, 0.48, 0.34)
+  const shelf = mat(obj.shelfColor, 0.08, 0.68)
   for (let index = 0; index <= obj.bays; index += 1) {
     const x = -length / 2 + index * obj.bayWidth
     for (const z of [-obj.depth / 2 + post / 2, obj.depth / 2 - post / 2]) {
@@ -196,59 +196,127 @@ function addRack(group: THREE.Group, obj: Extract<SceneObject, { type: 'rack' }>
       }
     }
     if (options.showSlots) {
-      const sprite = makeSprite(cell.code, 1.8, 0.55, '#1a1408', 'rgba(240,180,41,0.94)')
+      const sprite = makeSprite(cell.code, 1.8, 0.55, '#06201d', 'rgba(79,195,184,0.94)')
       sprite.position.set(cell.local.x, cell.shelfY + 0.42, obj.depth / 2 + 0.08)
       group.add(sprite)
     }
   }
 
-  const sign = makeSprite(obj.code || obj.name, 1.55, 0.62, '#1a1408', 'rgba(240,180,41,0.96)')
+  const sign = makeSprite(obj.code || obj.name, 1.55, 0.62, '#06201d', 'rgba(79,195,184,0.96)')
   const stagger = Math.round(obj.position.z) % 2 === 0 ? 0.15 : 0.95
   sign.position.set(-length / 2 - 0.2, postHeight + stagger, 0)
   group.add(sign)
 }
 
 function addWall(group: THREE.Group, obj: Extract<SceneObject, { type: 'wall' }>) {
-  const body = box(obj.length, obj.height, obj.thickness, mat(obj.color, 0.05, 0.86))
+  const body = box(obj.length, obj.height, obj.thickness, mat(obj.color, 0.04, 0.9))
   body.position.y = obj.height / 2
-  const skirt = box(obj.length, 0.18, obj.thickness + 0.04, mat('#8e97a6', 0.16, 0.62))
-  skirt.position.y = 0.09
-  const cap = box(obj.length + 0.04, 0.07, obj.thickness + 0.08, mat(obj.color, 0.22, 0.42))
+  const skirt = box(obj.length + 0.02, 0.28, obj.thickness + 0.06, mat('#7d8796', 0.18, 0.55))
+  skirt.position.y = 0.14
+  const rail = box(obj.length, 0.06, obj.thickness + 0.03, mat('#cfd6e0', 0.12, 0.5))
+  rail.position.y = Math.min(obj.height * 0.42, 1.65)
+  const cap = box(obj.length + 0.06, 0.08, obj.thickness + 0.1, mat('#dce3ec', 0.28, 0.38))
   cap.position.y = obj.height + 0.02
-  group.add(body, skirt, cap)
+  group.add(body, skirt, rail, cap)
 }
 
 function addColumn(group: THREE.Group, obj: Extract<SceneObject, { type: 'column' }>) {
-  const concrete = mat(obj.color, 0.08, 0.8)
-  const metal = mat('#6d7380', 0.35, 0.45)
+  const concrete = mat(obj.color, 0.06, 0.78)
+  const metal = mat('#8a93a1', 0.48, 0.36)
   const shaft = box(obj.width, obj.height, obj.depth, concrete)
   shaft.position.y = obj.height / 2
-  const base = box(obj.width * 1.4, 0.12, obj.depth * 1.4, metal)
-  base.position.y = 0.06
-  const cap = box(obj.width * 1.25, 0.1, obj.depth * 1.25, metal)
+  const base = box(obj.width * 1.45, 0.14, obj.depth * 1.45, metal)
+  base.position.y = 0.07
+  const ring = box(obj.width * 1.18, 0.05, obj.depth * 1.18, metal)
+  ring.position.y = Math.min(obj.height * 0.55, 2.4)
+  const cap = box(obj.width * 1.28, 0.1, obj.depth * 1.28, metal)
   cap.position.y = obj.height
-  group.add(shaft, base, cap)
+  group.add(shaft, base, ring, cap)
 }
 
 function addDoor(group: THREE.Group, obj: Extract<SceneObject, { type: 'door' }>) {
-  const frame = mat('#d5dbe3', 0.55, 0.32)
-  const leaf = mat(obj.color, 0.18, 0.58)
-  const opening = mat('#15181e', 0.05, 0.9)
-  const jamb = 0.1
-  const span = Math.max(obj.width - jamb * 2, 0.4)
-  const openingMesh = box(span, Math.max(obj.height - jamb, 0.4), 0.04, opening)
-  openingMesh.position.y = (obj.height - jamb) / 2
-  const left = box(jamb, obj.height, 0.16, frame)
+  const metal = mat('#d7dee7', 0.82, 0.22)
+  const darkMetal = mat('#667181', 0.72, 0.3)
+  const glassTint = obj.color === '#8d6a45' ? '#9ec9db' : obj.color
+  const glass = new THREE.MeshPhysicalMaterial({
+    color: glassTint,
+    metalness: 0,
+    roughness: 0.06,
+    transmission: 0.82,
+    thickness: 0.045,
+    ior: 1.45,
+    transparent: true,
+    opacity: 1,
+    envMapIntensity: 1.15,
+    depthWrite: false,
+  })
+
+  const jamb = 0.09
+  const trackH = 0.12
+  const sillH = 0.07
+  const depth = 0.18
+  const openingW = Math.max(obj.width - jamb * 2, 0.8)
+  const openingH = Math.max(obj.height - trackH - sillH, 1)
+  const leafW = openingW * 0.54
+  const leafH = openingH - 0.05
+  const leafY = sillH + openingH / 2
+
+  const recess = box(openingW, openingH, 0.03, mat('#10151c', 0.04, 0.92))
+  recess.position.set(0, leafY, -0.02)
+  recess.castShadow = false
+
+  const left = box(jamb, obj.height, depth, metal)
   left.position.set(-obj.width / 2 + jamb / 2, obj.height / 2, 0)
-  const right = box(jamb, obj.height, 0.16, frame)
+  const right = box(jamb, obj.height, depth, metal)
   right.position.set(obj.width / 2 - jamb / 2, obj.height / 2, 0)
-  const header = box(obj.width, jamb, 0.16, frame)
-  header.position.set(0, obj.height - jamb / 2, 0)
-  const doorLeaf = box(span * 0.48, Math.max(obj.height - jamb * 1.6, 0.4), 0.05, leaf)
-  doorLeaf.position.set(-obj.width * 0.12, (obj.height - jamb) / 2, 0.04)
-  const title = makeSprite(obj.name, 2.4, 0.72, '#f8fafc')
+  const header = box(obj.width, trackH, depth + 0.04, metal)
+  header.position.set(0, obj.height - trackH / 2, 0)
+  const sill = box(obj.width, sillH, depth + 0.05, darkMetal)
+  sill.position.set(0, sillH / 2, 0.01)
+  const track = box(openingW, 0.035, 0.06, darkMetal)
+  track.position.set(0, obj.height - trackH + 0.02, 0.06)
+  const guide = box(openingW, 0.02, 0.05, darkMetal)
+  guide.position.set(0, sillH + 0.01, 0.07)
+
+  group.add(recess, left, right, header, sill, track, guide)
+  group.add(glassLeaf(-openingW * 0.16, leafY, leafW, leafH, 0.035, glass, metal, darkMetal, 'left'))
+  group.add(glassLeaf(openingW * 0.16, leafY, leafW, leafH, 0.055, glass, metal, darkMetal, 'right'))
+
+  const title = makeSprite(obj.name, Math.max(2.6, obj.width * 0.7), 0.7, '#f8fafc', 'rgba(16,24,32,0.88)')
   title.position.set(0, obj.height + 0.55, 0)
-  group.add(openingMesh, left, right, header, doorLeaf, title)
+  group.add(title)
+}
+
+function glassLeaf(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  z: number,
+  glass: THREE.Material,
+  metal: THREE.Material,
+  handleMetal: THREE.Material,
+  side: 'left' | 'right',
+) {
+  const leaf = new THREE.Group()
+  leaf.position.set(x, y, z)
+  const pane = new THREE.Mesh(new THREE.BoxGeometry(Math.max(width - 0.08, 0.2), Math.max(height - 0.08, 0.2), 0.018), glass)
+  pane.castShadow = false
+  pane.receiveShadow = true
+  const frameW = 0.04
+  const top = box(width, frameW, 0.04, metal)
+  top.position.y = height / 2 - frameW / 2
+  const bottom = box(width, frameW, 0.04, metal)
+  bottom.position.y = -height / 2 + frameW / 2
+  const left = box(frameW, height, 0.04, metal)
+  left.position.x = -width / 2 + frameW / 2
+  const right = box(frameW, height, 0.04, metal)
+  right.position.x = width / 2 - frameW / 2
+  const mullion = box(0.03, height - frameW * 2, 0.03, metal)
+  const bar = box(0.03, Math.min(height * 0.42, 1.15), 0.03, handleMetal)
+  bar.position.set(side === 'left' ? width / 2 - 0.08 : -width / 2 + 0.08, 0, 0.03)
+  leaf.add(pane, top, bottom, left, right, mullion, bar)
+  return leaf
 }
 
 function addZone(group: THREE.Group, obj: Extract<SceneObject, { type: 'zone' }>) {
@@ -286,26 +354,28 @@ function addDock(group: THREE.Group, obj: Extract<SceneObject, { type: 'dock' }>
   )
   lip.castShadow = true
   lip.position.set(0, obj.height + 0.03, obj.depth / 2 - 0.14)
-  const title = makeSprite(obj.name, 2.8, 0.78, '#1a1404', 'rgba(245,196,0,0.96)')
+  const title = makeSprite(obj.name, 2.8, 0.78, '#06201d', 'rgba(79,195,184,0.96)')
   title.position.set(0, obj.height + 0.85, 0)
   group.add(body, lip, title)
 }
 
 function addStation(group: THREE.Group, obj: Extract<SceneObject, { type: 'station' }>) {
-  const top = box(obj.length, 0.08, obj.depth, mat(obj.color, 0.25, 0.42))
+  const top = box(obj.length, 0.07, obj.depth, mat(obj.color, 0.32, 0.36))
   top.position.y = obj.height
-  const legMaterial = mat('#232833', 0.4, 0.42)
-  const insetX = Math.max(obj.length / 2 - 0.08, 0.05)
-  const insetZ = Math.max(obj.depth / 2 - 0.08, 0.05)
-  group.add(top)
+  const apron = box(obj.length * 0.96, 0.12, obj.depth * 0.92, mat('#2a3340', 0.35, 0.45))
+  apron.position.y = obj.height - 0.1
+  const legMaterial = mat('#1f2732', 0.55, 0.34)
+  const insetX = Math.max(obj.length / 2 - 0.1, 0.05)
+  const insetZ = Math.max(obj.depth / 2 - 0.1, 0.05)
+  group.add(top, apron)
   for (const x of [-insetX, insetX]) {
     for (const z of [-insetZ, insetZ]) {
-      const leg = box(0.07, obj.height, 0.07, legMaterial)
-      leg.position.set(x, obj.height / 2, z)
+      const leg = box(0.06, obj.height - 0.08, 0.06, legMaterial)
+      leg.position.set(x, (obj.height - 0.08) / 2, z)
       group.add(leg)
     }
   }
-  const title = makeSprite(obj.name, 2.2, 0.66, '#f8fafc')
+  const title = makeSprite(obj.name, 2.2, 0.66, '#f8fafc', 'rgba(16,24,32,0.88)')
   title.position.set(0, obj.height + 0.62, 0)
   group.add(title)
 }
@@ -331,7 +401,7 @@ function tag(root: THREE.Object3D, id: string) {
 }
 
 function mat(color: string, metalness: number, roughness: number) {
-  return new THREE.MeshStandardMaterial({ color, metalness, roughness, envMapIntensity: 0.65 })
+  return new THREE.MeshStandardMaterial({ color, metalness, roughness, envMapIntensity: 0.85 })
 }
 
 function box(width: number, height: number, depth: number, material: THREE.Material) {
@@ -412,6 +482,6 @@ function pushLine(
   major: boolean,
 ) {
   positions.push(x1, y1, z1, x2, y2, z2)
-  const color = major ? [0.78, 0.58, 0.28] : [0.55, 0.6, 0.68]
+  const color = major ? [0.42, 0.72, 0.7] : [0.42, 0.5, 0.58]
   colors.push(...color, ...color)
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from 'vue'
+import ExamplesDialog from './components/ExamplesDialog.vue'
 import Inspector from './components/Inspector.vue'
 import StatusBar from './components/StatusBar.vue'
 import ToolRail from './components/ToolRail.vue'
@@ -43,7 +44,8 @@ function onKey(event: KeyboardEvent) {
   const key = event.key.toLowerCase()
 
   if (key === 'escape') {
-    if (ui.help) ui.help = false
+    if (ui.examples) ui.examples = false
+    else if (ui.help) ui.help = false
     else if (ui.confirm) ui.confirm = null
     else ui.tool = 'select'
     return
@@ -96,8 +98,8 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 </script>
 
 <template>
-  <div class="flex h-screen min-w-[1180px] flex-col overflow-hidden bg-ink text-base text-zinc-50">
-    <div class="h-px shrink-0 bg-gradient-to-r from-transparent via-amber-400/80 to-transparent" />
+  <div class="flex h-screen min-w-[1180px] flex-col overflow-hidden bg-ink text-base text-[#e9eef5]">
+    <div class="h-px shrink-0 bg-gradient-to-r from-transparent via-accent/70 to-transparent" />
     <TopBar />
     <div class="flex min-h-0 flex-1">
       <ToolRail />
@@ -124,6 +126,8 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
       </div>
     </div>
 
+    <ExamplesDialog v-if="ui.examples" />
+
     <div v-if="ui.help" class="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-6 backdrop-blur-sm" @click.self="ui.help = false">
       <div class="max-h-[80vh] w-full max-w-lg overflow-auto rounded-2xl border border-white/10 bg-panel p-5 shadow-2xl">
         <div class="flex items-start justify-between gap-4">
@@ -132,7 +136,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
         </div>
         <div class="mt-3 space-y-3 text-base leading-7 text-zinc-200">
           <p>原点在地面西南角。X 沿库房长度，Z 沿进深，Y 向上，单位是米。编辑会自动留在这台浏览器里。</p>
-          <p>场景 JSON 是看板的主文件。用 <span class="text-amber-200">slots</span> 里的库位编码和仓储系统对齐，用 <span class="text-amber-200">position</span> 摆货物。GLB 的原点在库房地面中心，方便直接丢进三维引擎。</p>
+          <p>场景 JSON 是看板的主文件。用 <span class="text-accent-soft">slots</span> 里的库位编码和仓储系统对齐，用 <span class="text-accent-soft">position</span> 摆货物。GLB 的原点在库房地面中心，方便直接丢进三维引擎。</p>
           <p>若看板用 three.js，把 JSON 坐标平移到中心：<span class="text-zinc-400">threeX = x - 长度 / 2</span>，<span class="text-zinc-400">threeZ = z - 进深 / 2</span>。</p>
         </div>
         <dl class="mt-4 grid grid-cols-[5.5rem_1fr] gap-y-1.5 text-base text-zinc-300">
