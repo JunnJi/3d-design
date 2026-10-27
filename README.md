@@ -1,13 +1,11 @@
 # 库房三维设计器
 
-用 Vue 3 布置不同场地的库房，导出给 3D 库房看板直接加载。
+布置货架与库区，导出 JSON、库位表和 GLB，供 3D 库房看板加载。
 
 ```bash
 pnpm install
 pnpm dev
 ```
-
-打开后是一个示例成品库。左侧放置货架、墙体、库区、月台等，右侧改尺寸和编码。刷新页面会恢复上次编辑。
 
 ## 目录结构
 
@@ -37,7 +35,7 @@ threeZ = z - floor.depth / 2
 
 ## 看板示例
 
-设计器顶部的「使用示例」里有 Vue 3 / React 两套 TypeScript Demo，下载的 zip 已包含与设计器同款的 `warehouse.json` 和 `warehouse.glb`，看板外观与设计器一致。解压后：
+设计器顶部的「使用示例」里有 Vue 3 / React 两套 TypeScript Demo，下载的 zip 已包含与设计器同款的 `warehouse.json` 和 `warehouse.glb`，外观与设计器一致。解压后：
 
 ```bash
 pnpm install
